@@ -61,4 +61,4 @@ def speak(TEXT):
     remove_file(output_file)
 
 
-speak("hello sir!!")  # Example usage, replace with actual input
+speak(ear.listen())  # Example usage, replace with actual input
