@@ -3,6 +3,7 @@ import os
 import threading  # For multi-threading
 import edge_tts
 import pygame
+import ear
 
 # Voice configuration
 VOICE = "en-AU-WilliamNeural"
@@ -58,3 +59,6 @@ def speak(TEXT):
 
     # Clean up the file
     remove_file(output_file)
+
+
+speak(ear.listen())  # Example usage, replace with actual input
