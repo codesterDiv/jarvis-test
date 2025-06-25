@@ -19,7 +19,7 @@ def connect_to_perplexity(api_key: str, model: str, user_message: str) -> dict:
     return response.json()
 
 # Example usage
-api_key = "YOUR_API_KEY"  # Replace with your actual API key
+api_key = ""  # Replace with your actual API key
 model = "llama-3.1-sonar-small-128k-online"  # Specify the model you want to use
 user_message = "What is the latest news on the Indiana Pacers?"
 
