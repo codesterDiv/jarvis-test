@@ -1,25 +1,27 @@
-from google.cloud import discoveryengine_v1 as discoveryengine
-from google.api_core.client_options import ClientOptions
-import ear
-def answer_query(project_id: str, location: str, engine_id: str, query_text: str):
-    client_options = ClientOptions(api_endpoint=f"{location}-discoveryengine.googleapis.com")
-    client = discoveryengine.ConversationalSearchServiceClient(client_options=client_options)
+import requests
+import json
 
-    serving_config = f"projects/jarvis-ai-463813/locations/{location}/collections/default_collection/engines/{engine_id}/servingConfigs/default_serving_config"
-
-    request = discoveryengine.AnswerQueryRequest(
-        serving_config=serving_config,
-        query=discoveryengine.AnswerQueryRequest.Query(text=query_text)
-    )
-
-    response = client.answer_query(request)
-    return response.answer_text
+def connect_to_perplexity(api_key: str, model: str, user_message: str) -> dict:
+    url = "https://api.perplexity.ai/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "model": model,
+        "messages": [{"role": "user", "content": user_message}],
+        "temperature": 0.2,
+        "max_tokens": 100
+    }
+    
+    response = requests.post(url, json=payload, headers=headers)
+    response.raise_for_status()  # Raise an error for bad responses
+    return response.json()
 
 # Example usage
-project_id = "jarvis-ai-463813"
-location = "global"
-engine_id = "your_engine_id"
-query_text = ear.listen()
+api_key = "YOUR_API_KEY"  # Replace with your actual API key
+model = "llama-3.1-sonar-small-128k-online"  # Specify the model you want to use
+user_message = "What is the latest news on the Indiana Pacers?"
 
-answer = answer_query(project_id, location, engine_id, query_text)
-print(answer)
+response = connect_to_perplexity(api_key, model, user_message)
+print(response['choices'][0]['message']['content'])
