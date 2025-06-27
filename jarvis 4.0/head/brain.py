@@ -15,3 +15,7 @@ def get_chatgpt_response(prompt):
 user_input = "What are the benefits of using AI in healthcare?"
 response = get_chatgpt_response(user_input)
 print(response)
+
+
+
+# Note: Make sure to handle your API key securely and not expose it in public code repositories.
