@@ -1,27 +1,17 @@
-import requests
-import json
+import openai
 
-def connect_to_perplexity(api_key: str, model: str, user_message: str) -> dict:
-    url = "https://api.perplexity.ai/chat/completions"
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
-    payload = {
-        "model": model,
-        "messages": [{"role": "user", "content": user_message}],
-        "temperature": 0.2,
-        "max_tokens": 100
-    }
-    
-    response = requests.post(url, json=payload, headers=headers)
-    response.raise_for_status()  # Raise an error for bad responses
-    return response.json()
+# Set up your API key
+openai.api_key = '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'
+
+# Function to get response from ChatGPT
+def get_chatgpt_response(prompt):
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[{"role": "user", "content": prompt}]
+    )
+    return response['choices'][0]['message']['content']
 
 # Example usage
-api_key = ""  # Replace with your actual API key
-model = "llama-3.1-sonar-small-128k-online"  # Specify the model you want to use
-user_message = "What is the latest news on the Indiana Pacers?"
-
-response = connect_to_perplexity(api_key, model, user_message)
-print(response['choices'][0]['message']['content'])
+user_input = "What are the benefits of using AI in healthcare?"
+response = get_chatgpt_response(user_input)
+print(response)
